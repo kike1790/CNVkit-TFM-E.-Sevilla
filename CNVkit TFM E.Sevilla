@@ -1,0 +1,37 @@
+## Creamos el archivo de referencia normalizado con varias muestras control
+###Cargamos el archivo bedfile y genenoma de referencia.
+
+python cnvkit.py batch /Users/enriquesevillaromero/DATOS/covered_N_T_pool/cnv_pool/cnv_pool1/EGAR00001545906_17296.sort.nd.covered.bam 
+--normal /Users/enriquesevillaromero/DATOS/covered_N_T_pool/normal_pool/normal_pool1/EGAR00001545910_17300.sort.nd.covered.bam 
+/Users/enriquesevillaromero/DATOS/covered_N_T_pool/normal_pool/normal_pool1/EGAR00001545918_17308.sort.nd.covered.bam 
+/Users/enriquesevillaromero/DATOS/covered_N_T_pool/normal_pool/normal_pool1 EGAR00001545919_17309.sort.nd.covered.bam 
+/Users/enriquesevillaromero/DATOS/covered_N_T_pool/normal_pool/normal_pool1/EGAR00001545920_17310.sort.nd.covered.bam 
+--targets /Users/enriquesevillaromero/Bedfile_1/bed_info.modified_autosomas_no_dots_chr.bed 
+--fasta /Users/enriquesevillaromero/DATOS/genoma_indexado/Homo_sapiens.GRCh37.dna.primary_assembly.fa 
+--output-reference/Users/enriquesevillaromero/DATOS/CNVkit/Oudir/my_reference.cnn 
+--output-dir /Users/enriquesevillaromero/DATOS/CNVkit/Outdir/out_EGAR00001545906_17296
+
+##Cargamos la muestra Tumor
+##Cargamos la muestra referencia normalizada
+##Obtenemos el archivo de salida de las coverturas de la muestra tumor.
+cnvkit.py batch Users/enriquesevillaromero/DATOS/covered_N_T_pool/cnv_pool/cnv_pool1/EGAR00001545906_17296.sort.nd.covered.bam 
+-r /Users/enriquesevillaromero/DATOS/CNVkit/OUTDIR_2/my_reference.cnn 
+-d Users/enriquesevillaromero/DATOS/CNVkit/results/
+
+##Generamos un archivo de salida con la grafica de la CNV
+cnvkit.py batch /Users/enriquesevillaromero/DATOS/covered_N_T_pool/cnv_pool/cnv_pool1/EGAR00001545906_17296 
+-r /Users/enriquesevillaromero/DATOS/CNVkit/OUTDIR_2/my_reference.cnn 
+-p 0 --scatter 
+/Users/enriquesevillaromero/DATOS/CNVkit/example4
+
+##Calculamos las CNVs desde el archivo de coverage .cnr para cada muestra tumor
+## Generamos un archivo de salida en formato .txt
+ cnvkit.py genemetrics /Users/enriquesevillaromero/DATOS/CNVkit/example4/EGAR00001545906_17296.sort.nd.covered.cnr 
+ > /Users/enriquesevillaromero/DATOS/CNVkit/example4/EGAR00001545906_17296.txt
+
+##Cambiamos los parametros de analisis para mejorar la sensibilidad 
+cnvkit.py genemetrics /Users/enriquesevillaromero/DATOS/CNVkit/example4/EGAR00001545906_17296.sort.nd.covered.cnr
+-s /Users/enriquesevillaromero/DATOS/CNVkit/example4/EGAR00001545906_17296.sort.nd.covered.cns 
+-t 0.2 -m 3 
+>/Users/enriquesevillaromero/DATOS/CNVkit/EGAR00001545906_17296.txt
+
